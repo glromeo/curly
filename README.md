@@ -1,4 +1,4 @@
-![alt text](https://raw.githubusercontent.com/glromeo/curly/master/public/images/8945966-designstyle-smoothie-l.png)
+-> ![alt text](https://raw.githubusercontent.com/glromeo/curly/master/public/images/8945966-designstyle-smoothie-o.png) <-
 
 ## install
 

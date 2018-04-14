@@ -2,9 +2,10 @@
   "name": "bs4-select",
   "version": "1.0.0",
   "description": "Drop down with search",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "server": "node server.js",
+    "electron": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -21,6 +22,7 @@
     "socket.io": "^2.1.0"
   },
   "devDependencies": {
+    "electron": "^1.8.4",
     "express": "^4.16.3"
   }
 }

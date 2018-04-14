@@ -10,7 +10,7 @@
     <title>Checkout example for Bootstrap</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="styles.css" rel="stylesheet">
@@ -32,7 +32,8 @@
 <body class="bg-light" ng-cloak>
 
 <header>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+
+    <nav ng-if="false" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <a class="navbar-brand" href="#">Curly</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -55,21 +56,24 @@
             </form>
         </div>
     </nav>
+
 </header>
 
 <div ng-view></div>
 
-<!--<div class="terminal"></div>-->
+<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
 
-<script src="/node_modules/jquery/dist/jquery.min.js"></script>
-<script src="/node_modules/popper.js/dist/umd/popper.min.js"></script>
-<script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="/node_modules/holderjs/holder.min.js"></script>
-<script src="/node_modules/angular/angular.min.js"></script>
-<script src="/node_modules/angular-route/angular-route.min.js"></script>
-<script src="/node_modules/papaparse/papaparse.min.js"></script>
+<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+<script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
+<script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../node_modules/holderjs/holder.min.js"></script>
+<script src="../node_modules/angular/angular.min.js"></script>
+<script src="../node_modules/angular-route/angular-route.min.js"></script>
+<script src="../node_modules/papaparse/papaparse.min.js"></script>
 <script src="curly.js"></script>
 <script src="curly/main.js"></script>
+
+<script>if (window.module) module = window.module;</script>
 
 <!--&lt;!&ndash;suppress HtmlUnknownTarget &ndash;&gt;-->
 <!--<script src="/socket.io/socket.io.js"></script>-->
