@@ -58,3 +58,5 @@ io.on('connection', function (socket) {
         console.log("bye");
     });
 });
+
+console.log("ignited, go to http://localhost:7000/public/#")
