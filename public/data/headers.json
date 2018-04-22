@@ -61,7 +61,7 @@
     "status": "Permanent"
   },
   {
-    "name": "",
+    "name": "Connection",
     "description": "Must not be used with HTTP/2.[9]",
     "example": "Connection: Upgrade",
     "status": ""
@@ -88,7 +88,8 @@
     "name": "Content-Type",
     "description": "The Media typeof the body of the request (used with POST and PUT requests).",
     "example": "Content-Type: application/x-www-form-urlencoded",
-    "status": "Permanent"
+    "status": "Permanent",
+    "type": "media-type"
   },
   {
     "name": "Date",
@@ -121,7 +122,7 @@
     "status": "Permanent"
   },
   {
-    "name": "",
+    "name": "Host",
     "description": "Mandatory since HTTP/1.1.[12] If the request is generated directly in HTTP/2, it should not be used.[13]",
     "example": "Host: en.wikipedia.org",
     "status": ""

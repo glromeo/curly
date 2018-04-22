@@ -12,70 +12,85 @@
 
 </style>
 
-<div class="container" style="padding: 50px">
-    <div class="py-5 text-center" style="height: 200px;">
-        <img class="d-block mx-auto mb-4" src="images/8945966-designstyle-smoothie-m.png" style=" margin: -60px auto;">
+<div class="container d-flex flex-column" style="padding: 50px">
+    <div id="curly-logo" class="text-center" style="height: 125px;">
+        <img style="position: relative; top: -75px" class="d-block mx-auto"
+             src="images/8945966-designstyle-smoothie-m.png">
     </div>
-    <div class="row" ng-controller="CurlController as curl">
-        <div class="input-group" style="margin-bottom: 10px;">
-            <div class="dropdown show input-group-prepend">
-                <button type="button" class="btn dropdown-toggle" ng-class="'btn-'+curl.verb.ngClass"
-                        data-toggle="dropdown">
-                    {{curl.verb.name}}
-                </button>
-                <div class="dropdown-menu">
-                    <a href ng-repeat="verb in curl.verbs" class="dropdown-item" ng-click="curl.verb = verb"
-                       ng-style="curl.verb == verb && {'font-weight': 'bold'}" ng-class="'text-'+verb.ngClass">
-                        {{verb.name}}
-                    </a>
+    <div class="row mb-2" ng-controller="CurlController as curl">
+        <div class="d-flex flex-grow">
+            <div class="input-group mb-2 flex-grow">
+                <div class="dropdown show input-group-prepend">
+                    <button type="button" class="btn dropdown-toggle" ng-class="'btn-'+curl.verb.ngClass"
+                            data-toggle="dropdown">
+                        {{curl.verb.name}}
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href ng-repeat="verb in curl.verbs" class="dropdown-item" ng-click="curl.verb = verb"
+                           ng-style="curl.verb == verb && {'font-weight': 'bold'}" ng-class="'text-'+verb.ngClass">
+                            {{verb.name}}
+                        </a>
+                    </div>
                 </div>
+                <a id="locationAnchor" href="{{curl.url}}"></a>
+                <input id="location" type="text" class="form-control" placeholder="location" required
+                       ng-model="curl.url">
             </div>
-            <input id="location" type="text" class="form-control" placeholder="location" required ng-model="curl.url">
+            <button type="button" class="btn btn-primary ml-2" style="height: 38px"
+                    data-toggle="modal" data-target="#parametersModalCenter"
+                    ng-disabled="!curl.url || curl.url.indexOf('?')<0">
+                &
+            </button>
         </div>
         <div class="invalid-feedback" style="width: 100%;">
             The URL is required ...that goes without saying does it?
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <form ng-controller="HeadersController">
+    <div class="row mb-2" style="flex: 2 2 0">
+        <div class="col d-flex flex-column">
+            <form ng-controller="HeadersController" class="mb-2">
                 <h6>Request Headers:</h6>
-                <div style="display: flex">
-                    <button type="button" class="btn btn-success" style="margin-right: 10px;"
-                            ng-disabled="!isValidHeader(newHeader)"
-                            ng-click="curl.headers.push(newHeader); newHeader = {}">
+                <div class="my-2 d-flex" ng-repeat="header in curl.headers">
+                    <div class="input-group flex-grow">
+                        <input type="text" class="form-control" style="width: 40%" ng-model="header.name"
+                               ng-class="header.ngClass">
+                        <input type="text" class="form-control" style="width: 60%" ng-model="header.value"
+                               ng-class="header.ngClass">
+                    </div>
+                    <button type="button" class="btn btn-secondary ml-2" ng-click="removeHeader(header)">
                         <svg xmlns="http://www.w3.org/2000/svg" style="width: 15px; height: 15px;"
                              viewBox="0 0 448 448">
                             <path style="fill: #fff"
-                                  d="M448 294.2v-76.4c0-13.3-10.7-24-24-24H286.2V56c0-13.3-10.7-24-24-24h-76.4c-13.3 0-24 10.7-24 24v137.8H24c-13.3 0-24 10.7-24 24v76.4c0 13.3 10.7 24 24 24h137.8V456c0 13.3 10.7 24 24 24h76.4c13.3 0 24-10.7 24-24V318.2H424c13.3 0 24-10.7 24-24z"/>
+                                  d="M424 318.2c13.3 0 24-10.7 24-24v-76.4c0-13.3-10.7-24-24-24H24c-13.3 0-24 10.7-24 24v76.4c0 13.3 10.7 24 24 24h400z"></path>
                         </svg>
                     </button>
-                    <div class="input-group" style="flex: 1 1 auto;">
-                        <div class="form-control dropdown input-group-prepend" style="width: 40%">
-                            <input type="text" class="form-control dropdown-toggle" data-toggle="dropdown"
+                </div>
+                <div class="d-flex">
+                    <div class="input-group flex-grow">
+                        <div class="form-control border-success dropdown input-group-prepend" style="width: 40%">
+                            <input type="text" class="form-control dropdown-toggle text-success" data-toggle="dropdown"
                                    ng-click="$event.target.select()"
                                    ng-model="newHeader.name" placeholder="header" ng-focus="openDropdown($event)"
                                    ng-class="'text-'+{'Obsolete':'danger', 'Permanent':'success'}[newHeader.state]">
-                            <div class="dropdown-menu" style="max-height: 300px; overflow-y: scroll;">
+                            <div class="dropdown-menu" style="max-height: 300px; overflow-y: scroll; font-size: 90%;">
                                 <a href ng-repeat="header in (filteredHeaders = (headers|filter:{name:newHeader.name}))"
-                                   class="dropdown-item"
-                                   ng-click="addHeader(header)">
-                                    <div style="display: inline-block; width: 250px; vertical-align: top;"
+                                   class="dropdown-item" ng-click="setHeader(header)">
+                                    <div style="display: inline-block; width: 240px; vertical-align: top;" class="mr-2"
                                          ng-class="'text-'+{'Obsolete':'danger', 'Permanent':'success'}[header.state]">
                                         {{header.name}} :
                                     </div>
-                                    <div style="display: inline-block; width: 450px; vertical-align: top; white-space: normal">
+                                    <div style="display: inline-block; width: 260px; vertical-align: top; white-space: normal">
                                         {{header.description}}
                                     </div>
                                 </a>
                             </div>
                         </div>
-                        <div class="form-control dropdown input-group-append" style="width: 60%">
-                            <input type="text" class="form-control dropdown-toggle" data-toggle="dropdown"
+                        <div class="form-control  border-success dropdown input-group-append" style="width: 60%">
+                            <input type="text" class="form-control dropdown-toggle text-success" data-toggle="dropdown"
                                    ng-click="$event.target.select()"
                                    ng-model="newHeader.value" placeholder="value" ng-focus="openDropdown($event)"
                                    required ng-model="newHeader.value">
-                            <div class="dropdown-menu" style="max-height: 300px; overflow-y: scroll;"
+                            <div class="dropdown-menu" style="max-height: 300px; overflow-y: scroll; font-size: 90%"
                                  ng-show="autocomplete[newHeader.type]">
                                 <a href
                                    ng-repeat="type in (filteredTypes = (autocomplete[newHeader.type]|filter:{value:newHeader.value}))"
@@ -91,48 +106,162 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div style="display: flex; margin-top: 10px;" ng-repeat="header in curl.headers">
-                    <button type="button" class="btn btn-danger" style="margin-right: 10px;">
+                    <button type="button" class="btn btn-success ml-2"
+                            ng-disabled="!isValidHeader(newHeader)"
+                            ng-click="addHeader(newHeader);">
                         <svg xmlns="http://www.w3.org/2000/svg" style="width: 15px; height: 15px;"
                              viewBox="0 0 448 448">
                             <path style="fill: #fff"
-                                  d="M424 318.2c13.3 0 24-10.7 24-24v-76.4c0-13.3-10.7-24-24-24H24c-13.3 0-24 10.7-24 24v76.4c0 13.3 10.7 24 24 24h400z"/>
+                                  d="M448 294.2v-76.4c0-13.3-10.7-24-24-24H286.2V56c0-13.3-10.7-24-24-24h-76.4c-13.3 0-24 10.7-24 24v137.8H24c-13.3 0-24 10.7-24 24v76.4c0 13.3 10.7 24 24 24h137.8V456c0 13.3 10.7 24 24 24h76.4c13.3 0 24-10.7 24-24V318.2H424c13.3 0 24-10.7 24-24z">
+                            </path>
                         </svg>
                     </button>
-                    <div class="input-group" style="flex: 1 1 auto;">
-                        <input type="text" class="form-control" style="width: 40%" ng-model="header.name"
-                               ng-class="header.ngClass">
-                        <input type="text" class="form-control" style="width: 60%" ng-model="header.value"
-                               ng-class="header.ngClass">
+                </div>
+                <div class="mt-2" ng-hide="curl.verb.name === 'PUT' || curl.verb.name === 'POST'">
+                    <div class="alert alert-light alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>{{curl.verb.name}}</strong> doesn't support a request body.
+                        <br>
+                        <br>
+                        Do you want to use <a href="#" class="alert-link" ng-click="curl.verb = curl.verbs[4]; $event.preventDefault()">POST</a> instead ?
                     </div>
                 </div>
+                <div class="mt-2 alert alert-warning alert-dismissible fade show" role="alert"
+                     ng-show="!contentType && (curl.verb.name === 'PUT' || curl.verb.name === 'POST')">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    No <strong>Content-Type</strong> specified.
+                    <br>
+                    <br>
+                    Quick fixes:
+                    <ul>
+                        <li class="li"><a href="#" class="alert-link" ng-click="setContentType('application/x-www-form-urlencoded'); $event.preventDefault()">FORM</a></li>
+                        <li class="li"><a href="#" class="alert-link" ng-click="setContentType('application/json'); $event.preventDefault()">JSON</a></li>
+                        <li class="li"><a href="#" class="alert-link" ng-click="setContentType('text/xml'); $event.preventDefault()">XML</a></li>
+                        <li class="li"><a href="#" class="alert-link" ng-click="setContentType('text/plain'); $event.preventDefault()">Plain Text</a></li>
+                    </ul>
+                </div>
             </form>
+            <div class="border-light" style="flex: 1 1 0; border-radius: .25rem;"
+                 ng-show="contentType === 'application/x-www-form-urlencoded'">
+                <h6 class="card-title mt-3">Request Body:</h6>
+                <div ng-controller="FormBodyController">
+                    <ul class="modal-body mb-0">
+                        <li class="mb-2 d-flex" ng-repeat="field in curl.fields">
+                            <div class="input-group flex-grow">
+                                <input type="text" class="form-control" style="width: 40%" ng-model="field.name">
+                                <input type="text" class="form-control" style="width: 60%" ng-model="field.value">
+                            </div>
+                            <button type="button" class="btn btn-secondary ml-2" ng-click="removeField(field)">
+                                <svg xmlns="http://www.w3.org/2000/svg" style="width: 15px; height: 15px;"
+                                     viewBox="0 0 448 448">
+                                    <path style="fill: #fff"
+                                          d="M424 318.2c13.3 0 24-10.7 24-24v-76.4c0-13.3-10.7-24-24-24H24c-13.3 0-24 10.7-24 24v76.4c0 13.3 10.7 24 24 24h400z"></path>
+                                </svg>
+                            </button>
+                        </li>
+                        <li class="d-flex" ng-init="newField = {}">
+                            <div class="input-group flex-grow">
+                                <input type="text" class="form-control border-primary text-primary" style="width: 40%"
+                                       ng-model="newField.name">
+                                <input type="text" class="form-control border-primary text-primary" style="width: 60%"
+                                       ng-model="newField.value">
+                            </div>
+                            <button type="button" class="btn btn-primary ml-2"
+                                    ng-click="addField(newField); newField = {}">
+                                <svg xmlns="http://www.w3.org/2000/svg" style="width: 15px; height: 15px;"
+                                     viewBox="0 0 448 448">
+                                    <path style="fill: #fff"
+                                          d="M448 294.2v-76.4c0-13.3-10.7-24-24-24H286.2V56c0-13.3-10.7-24-24-24h-76.4c-13.3 0-24 10.7-24 24v137.8H24c-13.3 0-24 10.7-24 24v76.4c0 13.3 10.7 24 24 24h137.8V456c0 13.3 10.7 24 24 24h76.4c13.3 0 24-10.7 24-24V318.2H424c13.3 0 24-10.7 24-24z"/>
+                                </svg>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="col">
+        <div class="col d-flex flex-column">
             <h6>Options:</h6>
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="search option" ng-model="search">
                 <div class="input-group-append">
                     <span class="input-group-text">
-                        <svg xmlns="http://www.w3.org/2000/svg" style="width: 15px; height: 15px;" viewBox="0 0 512 512"><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" style="width: 15px; height: 15px;"
+                             viewBox="0 0 512 512">
+                            <path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"></path>
+                        </svg>
                     </span>
                 </div>
             </div>
-            <form ng-controller="OptionsController" style="max-height: 300px; overflow-y: scroll">
-                <div class="form-check" style="margin: 10px;" ng-repeat-start="option in (filteredOptions = (man.options.list|filter:{name:search}))">
+            <form ng-controller="OptionsController" class="mt-1"
+                  style="flex: 1 1 0; overflow-y: scroll">
+                <div class="form-check m-2"
+                     ng-repeat-start="option in (filteredOptions = (man.options.list|filter:searchOption))">
                     <input class="form-check-input" type="checkbox" ng-model="curl.options[option.name]">
-                    <label class="form-check-label">{{option.name}}</label>
+                    <label class="form-check-label" ng-bind-html="option.name | highlight:search"></label>
                 </div>
-                <div ng-repeat-end ng-controller="OptionDescription" style="padding-left: 30px; font-size: 80%;"></div>
+                <div ng-repeat-end ng-bind-html="option.description | highlight:search" class="pl-4 pr-2"
+                     style="text-align: justify; font-size: 80%;"></div>
             </form>
         </div>
     </div>
-    <div class="row" style="margin-top: 30px" ng-controller="CurlManual">
+    <div class="row" style="flex: 1 1 0" ng-controller="CurlManual">
         <div class="card bg-dark text-white" style="width: 100%">
             <div class="card-body">
                 <h5 class="card-title">Command Line:</h5>
-                <div class="card-text"></div><code>{{$root.sampleCurlLine}}</code>
+                <div class="card-text"></div>
+                <code>{{$root.sampleCurlLine}}</code>
+            </div>
+        </div>
+    </div>
+    <!-- Parameters Modal -->
+    <div class="modal fade" id="parametersModalCenter" ng-controller="ParametersController" tabindex="-1" role="dialog"
+         aria-labelledby="parametersModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="parametersModalLongTitle">Request Parameters</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <ul class="modal-body mb-0">
+                    <li class="mb-2 d-flex" ng-repeat="parameter in parameters">
+                        <div class="input-group flex-grow">
+                            <input type="text" class="form-control" style="width: 40%" ng-model="parameter.name">
+                            <input type="text" class="form-control" style="width: 60%" ng-model="parameter.value">
+                        </div>
+                        <button type="button" class="btn btn-secondary ml-2" ng-click="removeParameter(parameter)">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 15px; height: 15px;"
+                                 viewBox="0 0 448 448">
+                                <path style="fill: #fff"
+                                      d="M424 318.2c13.3 0 24-10.7 24-24v-76.4c0-13.3-10.7-24-24-24H24c-13.3 0-24 10.7-24 24v76.4c0 13.3 10.7 24 24 24h400z"></path>
+                            </svg>
+                        </button>
+                    </li>
+                    <li class="d-flex" ng-init="newParameter = {}">
+                        <div class="input-group flex-grow">
+                            <input type="text" class="form-control border-primary text-primary" style="width: 40%"
+                                   ng-model="newParameter.name">
+                            <input type="text" class="form-control border-primary text-primary" style="width: 60%"
+                                   ng-model="newParameter.value">
+                        </div>
+                        <button type="button" class="btn btn-primary ml-2"
+                                ng-click="addParameter(newParameter); newParameter = {}">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 15px; height: 15px;"
+                                 viewBox="0 0 448 448">
+                                <path style="fill: #fff"
+                                      d="M448 294.2v-76.4c0-13.3-10.7-24-24-24H286.2V56c0-13.3-10.7-24-24-24h-76.4c-13.3 0-24 10.7-24 24v137.8H24c-13.3 0-24 10.7-24 24v76.4c0 13.3 10.7 24 24 24h137.8V456c0 13.3 10.7 24 24 24h76.4c13.3 0 24-10.7 24-24V318.2H424c13.3 0 24-10.7 24-24z"/>
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="save()" data-dismiss="modal">Apply</button>
+                </div>
             </div>
         </div>
     </div>

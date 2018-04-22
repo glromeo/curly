@@ -14,7 +14,7 @@ let mainWindow;
 function createWindow () {
     // Create the browser window.
     const {width, height} = electron.screen.getPrimaryDisplay().workAreaSize;
-    mainWindow = new BrowserWindow({width: width * .75, height: height * .75});
+    mainWindow = new BrowserWindow({width: Math.floor(width * .60), height: Math.floor(height * .80) });
 
     // and load the index.html of the app.
     mainWindow.loadURL(url.format({

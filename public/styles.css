@@ -2,6 +2,10 @@
     max-width: 960px;
 }
 
+.flex-grow {
+    flex: 1 1 auto;
+}
+
 .border-top { border-top: 1px solid #e5e5e5; }
 .border-bottom { border-bottom: 1px solid #e5e5e5; }
 .border-top-gray { border-top-color: #adb5bd; }
@@ -11,11 +15,8 @@
 .lh-condensed { line-height: 1.25; }
 
 .level0 {
-    margin: 0;
 }
 .level1 {
-    display: none;
 }
 .level2 {
-    display: none;
 }

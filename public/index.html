@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Checkout example for Bootstrap</title>
+    <title>Curly</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -19,17 +19,17 @@
         body {
             margin: 0;
             padding: 0;
+            width: 100vw;
+            height: 100vh;
         }
-        .terminal {
-            font-family: monospace;
-            color: white;
-            background: black;
+        .flex-stretch {
+            flex: 1 1 auto;
         }
     </style>
 
 </head>
 
-<body class="bg-light" ng-cloak>
+<body class="bg-light d-flex flex-column" ng-cloak>
 
 <header>
 
@@ -59,7 +59,7 @@
 
 </header>
 
-<div ng-view></div>
+<div class="d-flex flex-stretch" ng-view></div>
 
 <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
 
@@ -68,8 +68,10 @@
 <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="../node_modules/holderjs/holder.min.js"></script>
 <script src="../node_modules/angular/angular.min.js"></script>
+<script src="../node_modules/angular-sanitize/angular-sanitize.min.js"></script>
 <script src="../node_modules/angular-route/angular-route.min.js"></script>
 <script src="../node_modules/papaparse/papaparse.min.js"></script>
+<script src="../node_modules/ace-builds/src-min/ace.js"></script>
 <script src="curly.js"></script>
 <script src="curly/main.js"></script>
 
